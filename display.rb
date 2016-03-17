@@ -8,7 +8,7 @@ class Display
 
   def initialize(board)
     @board = board
-    @cursor_pos = [0,0]
+    @cursor_pos = [6,4] #start at pawn in front of king
     @notifications = {}
   end
 
@@ -39,7 +39,12 @@ class Display
   def render
     system("clear")
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
-    build_grid.each { |row| puts row.join }
+
+    row_notation = %w(8 7 6 5 4 3 2 1)
+    build_grid.each_with_index do |row, i|
+      puts row_notation[i].colorize(:red) + row.join
+    end
+    puts "  a  b  c  d  e  f  g  h".colorize(:red)
 
     @notifications.each do |key, val|
       puts val

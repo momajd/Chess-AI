@@ -20,7 +20,7 @@ class HumanPlayer
         puts "What piece do you want to move?"
         from_pos = @display.get_input
       end
-      [from_pos, to_pos]
     end
+    [from_pos, to_pos]
   end
 end

@@ -18,7 +18,7 @@ class Board
     @rows[x][y] = piece
   end
 
-  def move_piece(from_pos, end_pos)
+  def move_piece(from_pos, to_pos)
     raise 'No piece at that position' if self[from_pos].empty?
 
     piece = self[from_pos]
@@ -36,16 +36,26 @@ class Board
   end
 
   def make_starting_board
-    #start with putting empty pieces everywhere
     @rows = Array.new(8) {Array.new(8) {EmptySquare.instance}}
 
-    #back rows
+    populate_back_row
+
+    populate_pawns
+  end
+
+
+  def populate_back_row
     back_pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-    [[0, :white], [7, :black]].each do |row, color|
+    [[0, :black], [7, :white]].each do |row, color|
       back_pieces.each_with_index do |piece_class, col|
         self[[row, col]] = piece_class.new(self, color, [row, col])
       end
     end
+  end
+
+  def populate_pawns
+    8.times {|col| self[[1, col]] = Pawn.new(self, :black, [1, col])}
+    8.times {|col| self[[6, col]] = Pawn.new(self, :white, [1, col])}
   end
 
 end
