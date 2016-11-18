@@ -2,6 +2,11 @@ require 'singleton'
 
 class Piece
 
+  def initialize(board, color, pos)
+    @board, @color, @pos = board, color, pos
+  end
+  attr_reader :board, :color, :pos
+
   def empty?
     false
   end
@@ -30,5 +35,3 @@ class EmptySquare
     "empty"
   end
 end
-
-#p EmptySquare.instance.color

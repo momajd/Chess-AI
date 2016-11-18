@@ -20,7 +20,6 @@ class Board
 
   def move_piece(from_pos, to_pos)
     raise 'No piece at that position' if self[from_pos].empty?
-
     piece = self[from_pos]
 
     self[to_pos] = piece
@@ -28,7 +27,7 @@ class Board
   end
 
   def checkmate?
-    false   #REVISE
+    false   #TODO
   end
 
   def pos_in_bounds?(pos)
@@ -37,9 +36,7 @@ class Board
 
   def make_starting_board
     @rows = Array.new(8) {Array.new(8) {EmptySquare.instance}}
-
     populate_back_row
-
     populate_pawns
   end
 

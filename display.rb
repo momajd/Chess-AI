@@ -33,7 +33,7 @@ class Display
     else
       bg = :light_cyan
     end
-    { background: bg }
+    { color: :black, background: bg }
   end
 
   def render

@@ -4,17 +4,8 @@ require_relative 'stepping'
 class King < Piece
   include Stepping
 
-  attr_reader :board, :pos
-  def initialize(board, color, pos)
-    @board, @color, @pos = board, color, pos
-  end
-
   def to_s
-    if @color == :white
-      " ♔ "
-    else
-      " ♚ "
-    end
+    @color == :white ? " ♔ " : " ♚ "
   end
 
   def move_dirs
