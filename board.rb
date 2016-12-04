@@ -4,7 +4,7 @@ class Board
   attr_reader :rows
 
   def initialize
-    make_starting_board
+    make_starting_board!
   end
 
   def [](pos)
@@ -18,25 +18,35 @@ class Board
   end
 
   def move_piece(from_pos, to_pos)
-    raise 'No piece at that position' if self[from_pos].empty?
+    # raise 'No piece at that position' if self[from_pos].empty?
+
+
     piece = self[from_pos]
+
+    raise "That's not a valid move" unless piece.moves.include?(to_pos)
 
     self[to_pos] = piece
     self[from_pos] = EmptySquare.instance
+    piece.pos = to_pos
   end
 
   def checkmate?
     false   #TODO
   end
 
-  def pos_in_bounds?(pos)
+  def in_bounds?(pos)
     pos.all? {|coord| coord.between?(0,7)}
   end
 
-  def make_starting_board
+  def empty?(pos)
+    self[pos].empty?
+  end
+
+  private
+  def make_starting_board!
     @rows = Array.new(8) {Array.new(8) {EmptySquare.instance}}
     populate_back_row
-    populate_pawns
+    # populate_pawns TODO
   end
 
 

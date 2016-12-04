@@ -15,9 +15,14 @@ class Game
 
   def play
     until @board.checkmate?
-      from_pos, to_pos = @players[@current_player].get_move
-      @board.move_piece(from_pos, to_pos)
-      swap_turn!
+      begin
+        from_pos, to_pos = @players[@current_player].get_move
+        @board.move_piece(from_pos, to_pos)
+        swap_turn!
+      rescue StandardError => e
+        @display.notifications[:error] = e.message
+        retry
+      end
     end
   end
 

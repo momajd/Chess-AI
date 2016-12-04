@@ -18,10 +18,11 @@ class HumanPlayer
       @display.render
       if from_pos
         row, col = from_pos
-        piece = @display.board[from_pos].class.to_s
-        puts "#{piece} from #{cols[col]}#{rows[row]} selected. Where to move to?"
+        piece = @display.board[from_pos].class
+        puts "#{piece} at #{cols[col]}#{rows[row]} selected. Where to move to?"
         to_pos = @display.get_input
       else
+        @display.reset_errors!
         puts "#{@color.capitalize}'s move"
         puts "What piece do you want to move?"
         selection = @display.get_input

@@ -1,12 +1,12 @@
 class Queen < Piece
-  include Sliding
+  include Slideable
 
   def to_s
     @color == :white ? " ♕ " : " ♛ "
   end
 
   def move_dirs
-    Sliding::DIAGONAL_DIRS + Sliding::HORIZONTAL_DIRS
+    Slideable::DIAGONAL_DIRS + Slideable::HORIZONTAL_DIRS
   end
 
   def inspect

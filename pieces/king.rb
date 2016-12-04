@@ -1,12 +1,21 @@
 class King < Piece
-  include Stepping
+  include Steppable
 
   def to_s
     @color == :white ? " ♔ " : " ♚ "
   end
 
   def move_dirs
-    Stepping::KING_DIRS
+    [
+      [1, 0],
+      [1, 1],
+      [0, 1],
+      [-1, 1],
+      [-1, 0],
+      [-1, -1],
+      [0, -1],
+      [1, -1]
+    ]
   end
 
   def inspect

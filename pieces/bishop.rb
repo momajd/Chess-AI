@@ -1,12 +1,12 @@
 class Bishop < Piece
-  include Sliding
+  include Slideable
 
   def to_s
     @color == :white ? " ♗ " : " ♝ "
   end
 
   def move_dirs
-    Sliding::DIAGONAL_DIRS
+    Slideable::DIAGONAL_DIRS
   end
 
   def inspect

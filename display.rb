@@ -4,7 +4,7 @@ require_relative 'cursorable'
 class Display
   include Cursorable
 
-  attr_reader :board
+  attr_reader :board, :notifications
 
   def initialize(board)
     @board = board
@@ -49,5 +49,9 @@ class Display
     @notifications.each do |key, val|
       puts val
     end
+  end
+
+  def reset_errors!
+    @notifications.delete(:error)
   end
 end

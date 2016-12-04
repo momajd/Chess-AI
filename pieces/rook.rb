@@ -1,12 +1,12 @@
 class Rook < Piece
-  include Sliding
+  include Slideable
 
   def to_s
     @color == :white ? " ♖ " : " ♜ "
   end
 
   def move_dirs
-    Sliding::HORIZONTAL_DIRS
+    Slideable::HORIZONTAL_DIRS
   end
 
   def inspect
