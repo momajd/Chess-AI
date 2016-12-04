@@ -28,6 +28,8 @@ class Board
     self[to_pos] = piece
     self[from_pos] = EmptySquare.instance
     piece.pos = to_pos
+
+    promote_pawn!(piece) if piece.is_a?(Pawn) && ([0, 7].include?(piece.pos[0]))
   end
 
   def checkmate?
@@ -43,10 +45,16 @@ class Board
   end
 
   private
+  def promote_pawn!(piece)
+    # promote pawn to queen by default
+    return unless piece.is_a?(Pawn)
+    self[piece.pos] = Queen.new(self, piece.color, piece.pos)
+  end
+
   def make_starting_board!
     @rows = Array.new(8) {Array.new(8) {EmptySquare.instance}}
     populate_back_row
-    # populate_pawns TODO
+    populate_pawns
   end
 
 
@@ -61,7 +69,7 @@ class Board
 
   def populate_pawns
     8.times {|col| self[[1, col]] = Pawn.new(self, :black, [1, col])}
-    8.times {|col| self[[6, col]] = Pawn.new(self, :white, [1, col])}
+    8.times {|col| self[[6, col]] = Pawn.new(self, :white, [6, col])}
   end
 
 end
