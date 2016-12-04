@@ -51,6 +51,14 @@ class Display
     end
   end
 
+  def set_check!
+    @notifications[:check] = "Check!"
+  end
+
+  def clear_check!
+    @notifications.delete(:check)
+  end
+
   def reset_errors!
     @notifications.delete(:error)
   end

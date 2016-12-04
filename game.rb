@@ -19,10 +19,23 @@ class Game
         from_pos, to_pos = @players[@current_player].get_move
         @board.move_piece(from_pos, to_pos)
         swap_turn!
+        display_notications
       rescue StandardError => e
         @display.notifications[:error] = e.message
         retry
       end
+    end
+
+    puts "Checkmate!"
+    puts "#{@current_player.capitalize} wins"
+  end
+
+  private
+  def display_notications
+    if @board.in_check?(@current_player)
+      @display.set_check!
+    else
+      @display.clear_check!
     end
   end
 

@@ -5,6 +5,10 @@ class Board
 
   def initialize
     make_starting_board!
+
+    # keep reference to the kings
+    @white_king = self[[0, 4]]
+    @black_king = self[[7, 4]]
   end
 
   def [](pos)
@@ -19,21 +23,30 @@ class Board
 
   def move_piece(from_pos, to_pos)
     # raise 'No piece at that position' if self[from_pos].empty?
-
-
     piece = self[from_pos]
 
     raise "That's not a valid move" unless piece.moves.include?(to_pos)
+    # TODO check whether moving into check
 
     self[to_pos] = piece
     self[from_pos] = EmptySquare.instance
     piece.pos = to_pos
 
-    promote_pawn!(piece) if piece.is_a?(Pawn) && ([0, 7].include?(piece.pos[0]))
+    promote_pawn!(piece) if piece.is_a?(Pawn) && back_row?(to_pos)
   end
 
   def checkmate?
-    false   #TODO
+    (in_check?(:white) && @white_king.moves.empty?) || (in_check?(:black) && @black_king.moves.empty?)
+  end
+
+  def in_check?(color)
+    pieces.any? do |piece|
+      piece.color != color && piece.moves.any? {|pos| self[pos].is_a?(King)}
+    end
+  end
+
+  def pieces
+    @rows.flatten.reject {|piece| piece.empty?}
   end
 
   def in_bounds?(pos)
@@ -45,6 +58,10 @@ class Board
   end
 
   private
+  def back_row?(pos)
+    pos[0] == 0 || pos[0] == 7
+  end
+
   def promote_pawn!(piece)
     # promote pawn to queen by default
     return unless piece.is_a?(Pawn)
@@ -56,7 +73,6 @@ class Board
     populate_back_row
     populate_pawns
   end
-
 
   def populate_back_row
     back_pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]

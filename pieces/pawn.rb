@@ -21,9 +21,13 @@ class Pawn < Piece
     attack_dirs.each do |dx, dy|
       cur_x, cur_y = @pos
       pos = cur_x + dx, cur_y + dy
-      moves << pos if @board[pos].color != @color && !@board.empty?(pos)
+      moves << pos if valid_attack_pos?(pos)
     end
     moves
+  end
+
+  def valid_attack_pos?(pos)
+    @board.in_bounds?(pos) && !@board.empty?(pos) && @board[pos].color != @color
   end
 
   def forward_moves
