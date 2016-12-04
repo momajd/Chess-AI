@@ -1,9 +1,6 @@
-require_relative 'piece'
-require_relative 'sliding'
-
 class Queen < Piece
   include Sliding
-  
+
   def to_s
     @color == :white ? " ♕ " : " ♛ "
   end
