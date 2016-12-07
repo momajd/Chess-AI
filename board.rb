@@ -3,12 +3,12 @@ require_relative 'pieces'
 class Board
   attr_reader :rows
 
-  def initialize
-    make_starting_board!
+  def initialize(fill_board = true)
+    make_starting_board!(fill_board)
 
-    # keep reference to the kings
-    @white_king = self[[0, 4]]
-    @black_king = self[[7, 4]]
+    # keep reference to the kings TODO create king method
+    @white_king = self[[0, 4]] if fill_board
+    @black_king = self[[7, 4]] if fill_board
   end
 
   def [](pos)
@@ -21,22 +21,24 @@ class Board
     @rows[x][y] = piece
   end
 
-  def move_piece(from_pos, to_pos)
+  def move_piece(from_pos, end_pos)
     # raise 'No piece at that position' if self[from_pos].empty?
     piece = self[from_pos]
 
-    raise "That's not a valid move" unless piece.moves.include?(to_pos)
-    # TODO check whether moving into check
+    raise "That's not a valid move!" unless piece.moves.include?(end_pos)
+    raise "Can't leave King in Check!" if move_into_check?(from_pos, end_pos, piece.color)
 
-    self[to_pos] = piece
+    self[end_pos] = piece
     self[from_pos] = EmptySquare.instance
-    piece.pos = to_pos
+    piece.pos = end_pos
 
-    promote_pawn!(piece) if piece.is_a?(Pawn) && back_row?(to_pos)
+    promote_pawn!(piece) if piece.is_a?(Pawn) && back_row?(end_pos)
   end
 
-  def checkmate?
-    (in_check?(:white) && @white_king.moves.empty?) || (in_check?(:black) && @black_king.moves.empty?)
+  def checkmate?(color)
+    in_check?(color) && pieces.select {|piece| piece.color == color}.all? do |piece|
+      piece.valid_moves.empty?
+    end
   end
 
   def in_check?(color)
@@ -57,7 +59,28 @@ class Board
     self[pos].empty?
   end
 
+  def dup
+    duped_board = Board.new(false)
+
+    pieces.each do |piece|
+      duped_board[piece.pos] = piece.class.new(duped_board, piece.color, piece.pos.dup)
+    end
+
+    duped_board
+  end
+
   private
+  def move_into_check?(from_pos, end_pos, color)
+    duped_board = self.dup
+
+    piece = duped_board[from_pos]
+    duped_board[from_pos] = EmptySquare.instance
+    duped_board[end_pos] = piece
+    piece.pos = end_pos
+
+    duped_board.in_check?(color)
+  end
+
   def back_row?(pos)
     pos[0] == 0 || pos[0] == 7
   end
@@ -68,8 +91,9 @@ class Board
     self[piece.pos] = Queen.new(self, piece.color, piece.pos)
   end
 
-  def make_starting_board!
+  def make_starting_board!(fill_board)
     @rows = Array.new(8) {Array.new(8) {EmptySquare.instance}}
+    return unless fill_board
     populate_back_row
     populate_pawns
   end

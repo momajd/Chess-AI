@@ -14,7 +14,7 @@ class Game
   end
 
   def play
-    until @board.checkmate?
+    until @board.checkmate?(@current_player)
       begin
         from_pos, to_pos = @players[@current_player].get_move
         @board.move_piece(from_pos, to_pos)

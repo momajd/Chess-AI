@@ -9,4 +9,10 @@ class Piece
   def empty?
     false
   end
+
+  def valid_moves
+    self.moves.reject do |move|
+      board.move_into_check?(pos, move, color)
+    end
+  end
 end
