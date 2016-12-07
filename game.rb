@@ -25,6 +25,9 @@ class Game
         retry
       end
     end
+    swap_turn! #to display winner
+    @display.clear_check!
+    @display.render
 
     puts "Checkmate!"
     puts "#{@current_player.capitalize} wins"

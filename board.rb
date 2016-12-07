@@ -69,7 +69,6 @@ class Board
     duped_board
   end
 
-  private
   def move_into_check?(from_pos, end_pos, color)
     duped_board = self.dup
 
@@ -81,6 +80,7 @@ class Board
     duped_board.in_check?(color)
   end
 
+  private
   def back_row?(pos)
     pos[0] == 0 || pos[0] == 7
   end
