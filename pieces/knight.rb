@@ -1,6 +1,12 @@
 class Knight < Piece
   include Steppable
 
+  def initialize(board, color, pos)
+    super(board, color, pos)
+    @value = 3
+  end
+  attr_reader :value
+
   def to_s
     @color == :white ? " ♘ " : " ♞ "
   end

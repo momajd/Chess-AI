@@ -1,6 +1,12 @@
 class Queen < Piece
   include Slideable
 
+  def initialize(board, color, pos)
+    super(board, color, pos)
+    @value = 9
+  end
+  attr_reader :value
+
   def to_s
     @color == :white ? " ♕ " : " ♛ "
   end
