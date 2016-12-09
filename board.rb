@@ -5,10 +5,6 @@ class Board
 
   def initialize(fill_board = true)
     make_starting_board!(fill_board)
-
-    # keep reference to the kings TODO create king method
-    @white_king = self[[0, 4]] if fill_board
-    @black_king = self[[7, 4]] if fill_board
   end
 
   def [](pos)
