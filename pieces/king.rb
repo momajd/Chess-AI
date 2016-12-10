@@ -1,6 +1,12 @@
 class King < Piece
   include Steppable
 
+  def initialize(board, color, pos)
+    super(board, color, pos)
+    @value = 10 #real value is infinity
+  end
+  attr_reader :value
+
   def to_s
     @color == :white ? " ♔ " : " ♚ "
   end

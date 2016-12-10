@@ -2,12 +2,11 @@ require_relative 'display'
 
 class HumanPlayer
 
-  attr_reader :color
-
   def initialize(color, display)
     @color = color
     @display = display
   end
+  attr_reader :color
 
   def get_move
     cols = %w(a b c d e f g h)

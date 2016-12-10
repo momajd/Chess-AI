@@ -18,7 +18,6 @@ class Board
   end
 
   def move_piece(from_pos, end_pos)
-    # raise 'No piece at that position' if self[from_pos].empty?
     piece = self[from_pos]
 
     raise "That's not a valid move!" unless piece.moves.include?(end_pos)
@@ -32,7 +31,7 @@ class Board
   end
 
   def checkmate?(color)
-    in_check?(color) && pieces.select {|piece| piece.color == color}.all? do |piece|
+    in_check?(color) && pieces_by_color(color).all? do |piece|
       piece.valid_moves.empty?
     end
   end
@@ -43,8 +42,18 @@ class Board
     end
   end
 
+  def inspect
+    rows.map do |row|
+      row.map {|piece| piece.to_s}.join("")
+    end.join("\n")
+  end
+
   def pieces
     @rows.flatten.reject {|piece| piece.empty?}
+  end
+
+  def pieces_by_color(color)
+    pieces.select {|piece| piece.color == color}
   end
 
   def in_bounds?(pos)
