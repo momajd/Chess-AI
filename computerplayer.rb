@@ -23,21 +23,21 @@ class ComputerPlayer
   def minimax(node, depth, maximizing_player = true)
     if depth == 0 || node.children.empty?
       return node.value = node.evaluate
-    end 
+    end
 
     if maximizing_player
       best_value = -Float::INFINITY
 
       node.children.each do |child|
         child_value = minimax(child, depth - 1, false)
-        best_value = child_value if child_value > best_value
+        best_value = [best_value, child_value].max
       end
     else
       best_value = Float::INFINITY
 
       node.children.each do |child|
         child_value = minimax(child, depth - 1, true)
-        best_value = child_value if child_value < best_value
+        best_value = [best_value, child_value].min
       end
     end
 
