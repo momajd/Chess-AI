@@ -41,6 +41,6 @@ class ComputerPlayer
       end
     end
 
-    node.value = best_value #need to store this value; see 'get_move'
+    node.value = best_value
   end
 end

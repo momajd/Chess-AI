@@ -38,7 +38,7 @@ class Display
 
   def render
     system("clear")
-    puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
+    puts "Arrow keys or WASD to move; space or enter to confirm."
 
     row_notation = %w(8 7 6 5 4 3 2 1)
     build_grid.each_with_index do |row, i|
