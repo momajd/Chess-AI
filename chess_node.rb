@@ -13,9 +13,9 @@ class ChessNode
     opponent = current_player == :white ? :black : :white
 
     if board.checkmate?(opponent)
-      return Float::INFINITY
-    elsif board.checkmate?(current_player)
       return -Float::INFINITY
+    elsif board.checkmate?(current_player)
+      return Float::INFINITY
     end
 
     current_player_score = 0

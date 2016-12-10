@@ -5,7 +5,7 @@ class ComputerPlayer
     @color = color
     @display = display
 
-    @max_depth = 3
+    @ply_depth = 2 #the number of moves that the computer looks ahead
   end
   attr_reader :color
 
@@ -14,14 +14,16 @@ class ComputerPlayer
     puts "thinking..."
 
     root = ChessNode.new(@display.board, color)
-    best_score = minimax(root, @max_depth)
+    best_score = minimax(root, @ply_depth)
 
     best_node = root.children.find {|node| node.value == best_score}
     best_node.previous_move
   end
 
   def minimax(node, depth, maximizing_player = true)
-    return node.evaluate if depth == 0 || node.children.empty?
+    if depth == 0 || node.children.empty?
+      return node.value = node.evaluate
+    end 
 
     if maximizing_player
       best_value = -Float::INFINITY
