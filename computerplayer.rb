@@ -20,7 +20,8 @@ class ComputerPlayer
     best_node.previous_move
   end
 
-  def minimax(node, depth, maximizing_player = true)
+  private
+  def minimax(node, depth, alpha = -Float::INFINITY, beta = Float::INFINITY, maximizing_player = true)
     if depth == 0 || node.children.empty?
       return node.value = node.evaluate
     end
@@ -29,15 +30,19 @@ class ComputerPlayer
       best_value = -Float::INFINITY
 
       node.children.each do |child|
-        child_value = minimax(child, depth - 1, false)
+        child_value = minimax(child, depth - 1, alpha, beta, false)
         best_value = [best_value, child_value].max
+        alpha = [alpha, best_value].max
+        break if beta <= alpha
       end
     else
       best_value = Float::INFINITY
 
       node.children.each do |child|
-        child_value = minimax(child, depth - 1, true)
+        child_value = minimax(child, depth - 1, alpha, beta, true)
         best_value = [best_value, child_value].min
+        beta = [beta, best_value].min
+        break if beta <= alpha
       end
     end
 

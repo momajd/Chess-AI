@@ -2,10 +2,12 @@
 
 ![Intro](display.png)
 
-Chess game playable in the terminal. Computer player uses a minimax algorithm. Built with Ruby.
+Chess game playable in the terminal. Computer player uses a minimax algorithm. Built entirely in Ruby.
 
 ## Directions
-run `ruby game.rb` in the command line.
+Run `ruby game.rb` in the command line.
+
+For two-player game, change `ComputerPlayer` to `HumanPlayer` in `game.rb`.
 
 ## Object Oriented
 
